@@ -10,6 +10,7 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/BurntSushi/toml"
 )
@@ -18,13 +19,16 @@ import (
 var (
 	BaseUrl        = "https://api.telegram.org"
 	Command        = "sendMessage"
+	ParseMode      = "HTML"
 	DefaultMessage = "Ding!"
 )
 
 // Config
 type Config struct {
-	Bot_token string
-	Chat_ID   string
+	Telegram struct {
+		Bot_token string `toml:"token"`
+		Chat_ID   string `toml:"chat_id"`
+	} `toml:"telegram"`
 }
 
 func LoadConfig() (*Config, error) {
@@ -51,8 +55,9 @@ func LoadConfig() (*Config, error) {
 
 // Functions
 type SendMessageDTO struct {
-	ChatID string `json:"chat_id"`
-	Text   string `json:"text"`
+	ChatID    string `json:"chat_id"`
+	Text      string `json:"text"`
+	ParseMode string `json:"parse_mode"`
 }
 
 func sendMessage(config *Config, m SendMessageDTO) error {
@@ -61,7 +66,7 @@ func sendMessage(config *Config, m SendMessageDTO) error {
 		return errors.New("internal error")
 	}
 
-	base = base.JoinPath("bot" + config.Bot_token).JoinPath(Command)
+	base = base.JoinPath("bot" + config.Telegram.Bot_token).JoinPath(Command)
 
 	jsonData, err := json.Marshal(m)
 	if err != nil {
@@ -76,6 +81,14 @@ func sendMessage(config *Config, m SendMessageDTO) error {
 	defer resp.Body.Close()
 
 	return nil
+}
+
+func GetMessage() string {
+	if len(os.Args) == 0 {
+		return DefaultMessage
+	}
+
+	return strings.Join(os.Args[1:], " ")
 
 }
 
@@ -88,8 +101,9 @@ func main() {
 	}
 
 	msg := SendMessageDTO{
-		config.Chat_ID,
-		DefaultMessage,
+		config.Telegram.Chat_ID,
+		GetMessage(),
+		ParseMode,
 	}
 
 	err = sendMessage(config, msg)

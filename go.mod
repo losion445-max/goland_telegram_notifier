@@ -1,4 +1,4 @@
-module github.com/losion445-max/telegram-bot-apo-golang
+module github.com/losion445-max/telegram-bot-notifier-golang
 
 go 1.26.1
 
