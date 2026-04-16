@@ -1,4 +1,4 @@
-# tg_send
+# Golang Telegram Notifier
 
 A tiny utility to send Telegram notifications from the shell.
 
