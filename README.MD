@@ -5,7 +5,7 @@ A tiny utility to send Telegram notifications from the shell.
 ## Setup
 
 1. Build: ``` go build -o tg_notify```
-2. Config: ``` ~/.config/tg_send/conf.toml```
+2. Config: ``` ~/.config/tg_notify/conf.toml```
 
 ```toml
 [telegram]
