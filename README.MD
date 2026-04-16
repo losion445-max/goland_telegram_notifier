@@ -4,8 +4,8 @@ A tiny utility to send Telegram notifications from the shell.
 
 ## Setup
 
-1. Build: ```bash go build -o tg_notify```
-2. Config: ```bash ~/.config/tg_send/conf.toml```
+1. Build: ``` go build -o tg_notify```
+2. Config: ``` ~/.config/tg_send/conf.toml```
 
 ```toml
 [telegram]
@@ -17,7 +17,7 @@ chat_id = "your_chat_id"
 
 ```bash
 mkdir -p ~/go/bin
-mv tg_send ~/.go/bin/
+mv tg_notify ~/.go/bin/
 ```
 
 ## Usage
